@@ -330,7 +330,7 @@ gg_list<-lapply(DenDat_list,qwerfun,CAPTION= '',linesize=0.5)
 names(gg_list)<-smFISH_genename
 names( DenDat_list)<-smFISH_genename
 
-######multiple density plots#########
+######Fig S14#########
 
 qq<-do.call('ggarrange',c(gg_list,ncol=3,nrow=4,common.legend = TRUE, legend="bottom"))
 qq
@@ -345,6 +345,8 @@ gg_list<-lapply(DenDat_list,qwerfun,CAPTION= '',linesize=1)
 names(gg_list)<-smFISH_genename
 names( DenDat_list)<-smFISH_genename
 
+
+#Fig 2 (b)####
 LMNA_plot<-qwerfun_ind_LMNA(DenDat_list$LMNA,CAPTION='Data from Torre et al study')
 LMNA_plot
 

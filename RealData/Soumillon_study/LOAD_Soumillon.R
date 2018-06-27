@@ -22,5 +22,83 @@ DE_TRUE_LABEL<-rep(0,dim(D3_used3)[1])
 names(DE_TRUE_LABEL)<-rownames(D3_used3)
 DE_TRUE_LABEL[DE_1000]<-1
 
+
+
+
+
+#subsampling D3_used3 datasets:
+
+#########sample 100 200 400##########
+CONDITION_used<-CONDITION[colnames(D3_used3)]
+table(CONDITION_used)
+D3TO<-CONDITION_used[CONDITION_used==1]
+D3T7<-CONDITION_used[CONDITION_used==2]
+#####balance group#######
+set.seed(12300)
+#100
+D3T0_100_gr<-foreach(i=1:10)%do%{
+    return(sample(names(D3TO),100))
+}
+D3T7_100_gr<-foreach(i=1:10)%do%{
+    return(sample(names(D3T7),100))
+}
+
+#200 
+D3T0_200_gr<-foreach(i=1:10)%do%{
+    return(sample(names(D3TO),200))
+}
+D3T7_200_gr<-foreach(i=1:10)%do%{
+    return(sample(names(D3T7),200))
+}
+
+#400 
+D3T0_400_gr<-foreach(i=1:10)%do%{
+    return(sample(names(D3TO),400))
+}
+D3T7_400_gr<-foreach(i=1:10)%do%{
+    return(sample(names(D3T7),400))
+}
+
+
+save(D3T0_100_gr,D3T7_100_gr,D3T0_200_gr,D3T7_200_gr,D3T0_400_gr,D3T7_400_gr,file="E:/RNAseqProject/Soumillon_2014/D3T_smallsamples.RData")
+
+
+#########sample 20 50 80##########
+
+
+CONDITION_used<-CONDITION[colnames(D3_used3)]
+table(CONDITION_used)
+D3TO<-CONDITION_used[CONDITION_used==1]
+D3T7<-CONDITION_used[CONDITION_used==2]
+#####balance group#######
+set.seed(131256)
+#20
+D3T0_20_gr<-foreach(i=1:10)%do%{
+    return(sample(names(D3TO),20))
+}
+D3T7_20_gr<-foreach(i=1:10)%do%{
+    return(sample(names(D3T7),20))
+}
+
+#50
+D3T0_50_gr<-foreach(i=1:10)%do%{
+    return(sample(names(D3TO),50))
+}
+D3T7_50_gr<-foreach(i=1:10)%do%{
+    return(sample(names(D3T7),50))
+}
+
+#80
+D3T0_80_gr<-foreach(i=1:10)%do%{
+    return(sample(names(D3TO),80))
+}
+D3T7_80_gr<-foreach(i=1:10)%do%{
+    return(sample(names(D3T7),80))
+}
+
+
+save(D3T0_20_gr,D3T7_20_gr,D3T0_50_gr,D3T7_50_gr,D3T0_80_gr,D3T7_80_gr,file="E:/RNAseqProject/Soumillon_2014/D3T_smallsamples_v2.RData")
+
+
 save.image(file="E:/RNAseqProject/Soumillon_2014/Soumillon_2014.RData")
 
