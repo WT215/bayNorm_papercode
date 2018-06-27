@@ -21,9 +21,6 @@ TRUE_LABEL<-TRUE_LABEL[-drop]
 
 
 
-
-
-
 save('Load_Islam.RData')
 
 

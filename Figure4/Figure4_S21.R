@@ -99,4 +99,53 @@ PCA_FUN2(pca_try=pca_try_DCA ,LABEL_INDIVIDUAL=LABEL_INDIVIDUAL,LABEL_REP=LABEL_
 
 
 
+#Fig 4(c)####
+# load average False Positive Rates (based on LL version's bayNorm, Scaling, SAVER, DCA, MAGIC and SCnorm)
+load("E:/RNAseqProject/tung2017batch/MMEADJ_ERCCBETA/avg_vectors_default.RData")
+
+#load result based on GG version' bayNorm
+load("E:/RNAseqProject/tung2017batch/MMEADJ_ERCCBETA/array_batchcheck_default_GG/AUC_FDR_GG.RData")
+
+auc_vec<-c(auc_vec,auc_GG)
+names(auc_vec)<-method_vec
+
+
+avg_005<-c(avg_005,mean(FDR_GG))
+names(avg_005)[1]<-'bayNorm_local'
+names(avg_005)[8]<-'bayNorm_global'
+
+plot(auc_vec[method_vec],avg_005[method_vec],pch=16,xlab='AUC',ylab='Averaged false positive rates')
+text(auc_vec[method_vec],avg_005[method_vec],labels=method_vec)
+
+scatter_dat<-data.frame(auc_vec[method_vec],avg_005[method_vec],method_vec)
+colnames(scatter_dat)<-c('AUC','FDR','methods')
+
+
+line<-2.2
+line_title<-0.5
+cex.lab<-1
+cex<-1
+
+pdf(file="E:/RNAseqProject/Illustrator_bayNorm/FIGURE_2/PCA_main_v4.pdf",width=15,height=5)
+
+par(mfrow=c(1,3))
+PCA_FUN2(pca_try=pca_try_RB ,LABEL_INDIVIDUAL=LABEL_INDIVIDUAL,LABEL_REP=LABEL_REP,TITLE='Scaling',legend.x='topleft')
+PCA_FUN2(pca_try=pca_array ,LABEL_INDIVIDUAL=LABEL_INDIVIDUAL,LABEL_REP=LABEL_REP,TITLE='bayNorm (one sample)',legend.='bottomleft')
+
+plot(y=scatter_dat$AUC,x=scatter_dat$FDR,col=col_vec,xlab='Averaged false positive rates',ylab='AUC',pch=16)
+# Values of 1, 2, 3 and 4, respectively indicate positions below, to the left of, above and to the right of the specified coordinates.
+text(y=scatter_dat$AUC[2:7],x=scatter_dat$FDR[2:7],label=scatter_dat$methods[2:7],col=col_vec[2:7],pos=c(NULL,3,1,4,1,2,1,NULL))
+text(y=scatter_dat$AUC[c(1,8)],x=scatter_dat$FDR[c(1,8)],label=scatter_dat$methods[c(1,8)],col=col_vec[c(1,8)],adj=c(0.2,-0.8))
+
+abline(h=0.75,v=0.25,lty=2)
+polygon(x = c(0,0.25,0.25,0), 
+        y =c(0.75,0.75,1,1),
+        col =rgb(0,1,0,alpha=0.03),border=NA)
+
+
+dev.off()
+
+
+
+
 

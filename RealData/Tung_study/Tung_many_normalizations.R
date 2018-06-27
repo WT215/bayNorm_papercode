@@ -21,6 +21,10 @@ qq<-abind(bayNorm_array_N2$Bay_array,bayNorm_array_N3$Bay_array,along=2)
 dim(qq)
 M_bay_mat<-SCnorm_runMAST3(Data=qq,NumCells = c(201,221))
 
+##GG bayNorm#####
+bay_GG<-bayNorm(Data=cbind(N1_DAT,N2_DAT,N3_DAT),BETA_vec = efficiency[colnames(cbind(N1_DAT,N2_DAT,N3_DAT))],S=5,Conditions = c(rep(1,dim(N1_DAT)[2]),rep(2,dim(N2_DAT)[2]),rep(3,dim(N3_DAT)[2])))
+
+
 #SAVER########
 library(SAVER)
 saver_N1<-saver(x=N1_DAT)
