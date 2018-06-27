@@ -446,6 +446,8 @@ system.time(H1p24_bay_sim<-trytt2(counts=count_temp,inputMeanBeta=1,inputtrim=0.
 sce_list<-list(real=SingleCellExperiment(assays=list(counts=count_temp)),Binomial_bayNorm=SingleCellExperiment(assays=list(counts=Binomial_bayNorm$downsample.counts)),Binomial=SingleCellExperiment(assays=list(counts=H1p24_bay_sim$SCE@assays$data$counts)),Splatter=spla_sim)
 names(sce_list)[1]<-'Scaled and rounded real data'
 
+
+
 source("DROPOUT_FUN.r")
 point.size<-1
 point.alpha<-0.4
@@ -494,7 +496,16 @@ qq
 
 
 
-######prepare for MA plot####
+
+
+
+
+
+
+
+
+
+######prepare for MA plot (Fig S10)####
 library(ggplot2)
 library(SummarizedExperiment)
 library(SingleCellExperiment)
