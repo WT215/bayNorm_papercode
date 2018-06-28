@@ -129,9 +129,9 @@ $(document).ready(function () {
 <h1>Source code of bayNorm</h1>
 <p>Source code of bayNorm can be found <a href="https://github.com/WT215/bayNorm">here</a></p>
 </div>
-<div id="the-first-step-preparing-for-the-raw-data" class="section level1">
-<h1>The first step: preparing for the raw data</h1>
-<p>This paper involves 8 studies:</p>
+<div id="real-datasets-used-in-this-paper" class="section level1">
+<h1>Real datasets used in this paper</h1>
+<p>This paper involves the following 8 studies:</p>
 <ol style="list-style-type: decimal">
 <li>Klein study (<a href="https://www.cell.com/cell/abstract/S0092-8674%2815%2900500-0">https://www.cell.com/cell/abstract/S0092-8674%2815%2900500-0</a>)</li>
 <li>Grün study (<a href="https://www.nature.com/articles/nmeth.2930" class="uri">https://www.nature.com/articles/nmeth.2930</a>)</li>
@@ -142,6 +142,56 @@ $(document).ready(function () {
 <li>Tung study (<a href="https://www.nature.com/articles/srep39921" class="uri">https://www.nature.com/articles/srep39921</a>)</li>
 <li>Patel study (<a href="http://science.sciencemag.org/content/344/6190/1396" class="uri">http://science.sciencemag.org/content/344/6190/1396</a>)</li>
 </ol>
+</div>
+<div id="simulated-datasets-used-in-this-paper" class="section level1">
+<h1>Simulated datasets used in this paper:</h1>
+<p>There are 4 simulated datasets with DE genes. Each one of them consists of 2 two groups of cells, and 100 cells in each group. 2000 out of 10000 genes were simulated to be DE genes in the first group and half of the 2000 genes were upregulated <code>\Simulations\SIM_DE</code>.</p>
+<ol style="list-style-type: decimal">
+<li>SIM DE I: mean capture efficiency <span class="math inline">\(&lt;\beta&gt;=10\%\)</span> for two groups.</li>
+<li>SIM DE II: mean capture efficiency <span class="math inline">\(&lt;\beta&gt;=5\% \text{ and } 10\%\)</span> for two groups respectively.</li>
+<li>SIM DE III: mean capture efficiency <span class="math inline">\(&lt;\beta&gt;=10\% \text{ and } 5\%\)</span> for two groups respectively.</li>
+<li>SIM DE IV: mean capture efficiency <span class="math inline">\(&lt;\beta&gt;=5\% \text{ and } 5\%\)</span> for two groups respectively.</li>
+</ol>
+<p>There are another 2 simulated datasets without DE genes <code>\Simulations\SIM_noDE</code>. Mean capture efficiency <span class="math inline">\(&lt;\beta&gt;=10\% \text{ and } 5\%\)</span> for two groups respectively. These two simulations were inspired by Bacher study. The purpose is to study the ability of normalization method in terms of correcting different sequencing depths.</p>
+<ol style="list-style-type: decimal">
+<li>SIM Bacher I: Parameters were estimated from Klein study.</li>
+<li>SIM Bacher II: Parameters were estimated from H1_P24 cells from Bacher study.</li>
+</ol>
+</div>
+<div id="datasets-and-the-corresponding-figures" class="section level1">
+<h1>Datasets and the corresponding figures</h1>
+<div id="real-datasets" class="section level2">
+<h2>Real datasets</h2>
+<ol style="list-style-type: decimal">
+<li>Klein study: Fig1 (b)-(e), Fig3 (a)-(b); Fig S2, S8a-b.</li>
+<li>Grün study: Fig2 a,c,e and g; Fig S11a-b, S12-S13</li>
+<li>Torre study: Fig2 b,d,f and h; Fig S6, S8e-f, S10a, S11c, S14.</li>
+<li>Bacher study: Fig S7, S9 a-d, S10e, S16, S19a, S23a.</li>
+<li>Islam study: Fig 3c; Fig S9e-f, S23b.</li>
+<li>Soumillon study: Fig3d; Fig S21.</li>
+<li>Tung study: Fig4, FigS3-S5, S8c-d, S10b-d, S25-26</li>
+<li>Patel study: FigS10f</li>
+</ol>
+</div>
+<div id="simulated-datasets-with-de-genes" class="section level2">
+<h2>Simulated datasets with DE genes</h2>
+<ol style="list-style-type: decimal">
+<li>SIM DE I: FigS15a,e,i, S20c-d, S22a, S24a, S27-29</li>
+<li>SIM DE II: FigS15b,f,j, S20c-d, S22b, S24b, S27-29</li>
+<li>SIM DE III: FigS15c,g,k, S20c-d, S22c, S24c, S27-29</li>
+<li>SIM DE IV: FigS15d,h,l, S20c-d, S22d, S24d, S27-29</li>
+</ol>
+</div>
+<div id="simulated-datasets-without-de-genes" class="section level2">
+<h2>Simulated datasets without DE genes</h2>
+<ol style="list-style-type: decimal">
+<li>SIM Bacher I: S17, S19b, S20a-b</li>
+<li>SIM Bacher II: S18, S19c</li>
+</ol>
+</div>
+</div>
+<div id="the-first-step-preparing-for-the-raw-data" class="section level1">
+<h1>The first step: preparing for the raw data</h1>
 </div>
 
 
