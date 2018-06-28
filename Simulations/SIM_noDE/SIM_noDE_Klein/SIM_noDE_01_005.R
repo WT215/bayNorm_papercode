@@ -207,25 +207,12 @@ length(which(M_magic$adjpval<0.05))
 
 ####analysis######
 load("E:/RNAseqProject/SIMULATION/SIM_noDE_01_005/SIM_noDE_01_005.RData")
-load("E:/RNAseqProject/RAW_6SIM/DCA_SIM/DCA_SIM_noDE_01_005.RData")
-# library(abind)
-# qq_temp<-abind(abayNorm_out$Bay_array_list,along=2)
-# dim(qq_temp)
-# M_bayNorm_a10<-SCnorm_runMAST3(Data=qq_temp,NumCells = c(100,100))
-# rm(qq_temp)
-# save.image(file="E:/RNAseqProject/SIMULATION/SIM_noDE_01_005/SIM_noDE_01_005.RData")
 
-#load("E:/RNAseqProject/SIMULATION/SIM_noDE_01_005/SAVER_noDE_01_005.RData")
-load("E:/RNAseqProject/SIMULATION/SIM_noDE_01_005/SAVER_noDE_01_005_default.RData")
-load("E:/RNAseqProject/SIMULATION/SIM_noDE_01_005/SCnorm_noDE_01_005.RData")
-load("E:/RNAseqProject/SIMULATION/SIM_noDE_01_005/scImpute_noDE_01_005.RData")
-load("E:/RNAseqProject/SIMULATION/SIM_noDE_01_005/RB_noDE_01_005.RData")
-load("E:/RNAseqProject/SIMULATION/SIM_noDE_01_005/MAGIC_noDE_01_005.RData")
 
-#TrueMU<-rowData(SCE)$BaseGeneMean[-DROP]
+
 
 Inputdat<-RAW_DAT
-#Inputdat<-SCE@assays@.xData$data$TrueCounts
+
 
 MedExp <- log(apply(Inputdat, 1, function(x) median(x[x != 0])))
 summary(apply(Inputdat, 1, function(x) median(x[x != 0])))

@@ -125,6 +125,10 @@ $(document).ready(function () {
 <h1>bayNorm: relevant code for producing figures in the paper</h1>
 <p>code for producing figures in bayNorm</p>
 </div>
+<div id="purpose-of-this-repository" class="section level1">
+<h1>Purpose of this repository</h1>
+<p>The main purpose of this repository is to provide the analysis procedure used in the paper.</p>
+</div>
 <div id="source-code-of-baynorm" class="section level1">
 <h1>Source code of bayNorm</h1>
 <p>Source code of bayNorm can be found <a href="https://github.com/WT215/bayNorm">here</a></p>
@@ -189,9 +193,51 @@ $(document).ready(function () {
 <li>SIM Bacher II: S18, S19c</li>
 </ol>
 </div>
+<div id="some-notes-before-running-the-code" class="section level2">
+<h2>Some notes before running the code</h2>
+<ol style="list-style-type: decimal">
+<li><strong>You cannot directly run all the code at the same time. The paths in each R file need to be modified accordingly.</strong></li>
+<li>The normalization and DE detection could take a long time, which depends on the size of raw data. Hence make sure running the code step by step so as to avoid bugs.</li>
+<li>Useful functions are stored in the file <code>\Functions</code>, some of them need to be loaded in advance.</li>
+<li>The noramlization method <code>DCA</code> is developed using python. The Jupyter Notebooks for running DCA are stored in the file <code>\DCA</code>. Make sure running DCA normalization and corresponding DE detection, and them feed the DCA normalized data into the other R files.<br />
+</li>
+<li>Some R files need several <code>.RData</code> files as input and will also output <code>.RData</code> files used in other cases. Hence make sure the first step is completed so as to produce necessary <code>.RData</code> files to begin with.</li>
+</ol>
 </div>
-<div id="the-first-step-preparing-for-the-raw-data" class="section level1">
-<h1>The first step: preparing for the raw data</h1>
+</div>
+<div id="the-first-step" class="section level1">
+<h1>The first step</h1>
+<div id="preparing-for-the-real-datasets" class="section level2">
+<h2>Preparing for the real datasets</h2>
+<ol style="list-style-type: decimal">
+<li>Klein study: firstly, run <code>\RealData\Klein_study\Klein_bayNorm.R</code>, output <code>Klein_bayNorm.RData</code>.</li>
+</ol>
+<p>2.Grün study: run <code>LOAD_Grun_smFISH.R</code> (output <code>smFISH_norm_load.RData</code>), <code>LOAD_Grun_2i.R</code> (output <code>Grun_2014_RAW.RData</code>) and <code>LOAD_Grun_serum.R</code> (output <code>Grun_2014_RAW_serum.RData</code>). Then run <code>Grun_2i_norms.R</code> (output <code>Grun_2i_norms.RData</code>) and <code>Grun_serum_norms.R</code> (output <code>Grun_serum_norms.RData</code>) for normalizing data. Note that the other method DCA needs to be run separately.</p>
+<ol start="3" style="list-style-type: decimal">
+<li><p>Torre study: run <code>Load_Torre.R</code> (output <code>Load_Torre.RData</code>). Then run <code>Torre_many_normalizations.R</code> (out put <code>Torre_many_normalizations.RData</code>) for normalizing data.</p></li>
+<li><p>Bacher study: run <code>LOAD_Bacher.R</code> (output <code>RAW_INITIATE.RData</code>) to load H1 and H9 datasets. Then run <code>H1_many_normalizations.R</code> (output <code>&quot;H1_many_normalizations.RData&quot;</code>) and <code>H9_many_normalizations.R</code> (output <code>&quot;H9_many_normalizations.RData&quot;</code>) respectively.</p></li>
+<li>Islam study: run <code>Load_Islam.R</code> (output <code>Load_Islam.RData</code>). Then run <code>Islam_many_normalizations.R</code> (output <code>Islam_many_normalizations.RData</code>).</li>
+<li>Soumillon study: run <code>LOAD_Soumillon.R</code> (output <code>Soumillon_2014.RData</code>). Then run <code>Soumillon_norms.R</code> (output <code>Soumillon_analysis.RData</code>).</li>
+<li>Tung study: run <code>Load_Tung.R</code> (output <code>Load_Tung.RData</code>). Then run <code>Tung_many_normalizations.R</code> (output <code>Tung_norms.RData</code>).</li>
+<li><p>Patel study: run <code>Load_Patel.R</code> (output <code>Patel2014_bay_out.RData</code>)</p></li>
+</ol>
+</div>
+<div id="notes-before-running-simulations" class="section level2">
+<h2>Notes before running simulations</h2>
+<p>Firstly, we need to estimate parameters from the real data. Relevant codes are stored in <code>\bayNorm_papercode\Figure1</code>.</p>
+<ol style="list-style-type: decimal">
+<li>For Klein dataset, if you have completed the step 1 as shown above, then <code>Klein_bayNorm.RData</code> stored the parameters you need. <code>Klein_bayNorm.RData</code> is needed in SIM DE I-IV and SIM Bacher I.</li>
+<li>For Bacher dataset (H1_P24), run a section named <code>REAL DATA 6: Bacher study (H1_P24 cells)</code> in the file <code>Simulations_realdata.R</code>, which output <code>H1p24_bay_sim_allgene.RData</code> used in SIM Bacher II.</li>
+</ol>
+</div>
+<div id="preparing-for-the-simulated-datasets-with-de-genes" class="section level2">
+<h2>Preparing for the simulated datasets (with DE genes)</h2>
+<p>The codes are stored in: <code>\Simulations\SIM_DE</code> 1. SIM DE I: run <code>DE_sim_01_01.R</code> (output <code>SIM_1.RData</code> and <code>GG_SIM_1.RData</code>). 2. SIM DE II: run <code>SIM_005_01.R</code> (output <code>SIM_005_01.RData</code> and <code>GG_SIM_005_01.RData</code>). 3. SIM DE III: run <code>SIM_01_005.R</code>(output <code>SIM_01_005.RData</code> and <code>GG_SIM_01_005.RData</code>). 4. SIM DE IV: run <code>SIM_005_005.r</code>(output <code>SIM_005_005.RData</code> and <code>GG_SIM_005_005.RData</code>).</p>
+</div>
+<div id="preparing-for-the-simulated-datasets-without-de-genes" class="section level2">
+<h2>Preparing for the simulated datasets (without DE genes)</h2>
+<p>The codes are stored in: <code>\Simulations\SIM_noDE</code> 1. SIM Bacher I: run <code>SIM_noDE_01_005.R</code> (output <code>SIM_noDE_01_005.RData</code>) 2. SIM Bacher II: run <code>SIM_noDE_01_005_H1.R</code> (output <code>SIM_noDE_01_005_H1.RData</code>)</p>
+</div>
 </div>
 
 

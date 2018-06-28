@@ -5,6 +5,9 @@ source("E:/RNAseqProject/MANY_NORM_FUN.R")
 
 load("E:/RNAseqProject/Bacher__SCnorm_2016/DIY_sim/H1p24_bay_sim_allgene.RData")
 
+
+Sim_List_Input<-H1p24_bay_sim
+
 Sim_List_Input$SCE<-NULL
 Sim_List_Input$Est_params@counts.norm.TC<-matrix()
 library(bayNorm)
@@ -35,7 +38,7 @@ length(Est_params@Beta)
 
 
 library(splatter)
-#Est_params<-newQQParams(nGenes = 10000, nCells = 100,nGroups = 2,groupCells = c(100,100), mean.rate =1/60, mean.shape = 0.35,lib.loc = 10,lib.scale = 0.5,out.prob =0, out.neg.prob=0,out.facLoc = 0.1,out.facScale = 0.05,de.prob = c(0.2,0),de.downProb = c(0.5,0), de.facLoc =c(1,1),de.facScale =c(0.5,0.5),bcv.common = 0.2,bcv.df = 20,SimControl='F',MeanBeta=c(0.1,0.1))
+
 
 SCE<-QQinitiate(Est_params)
 SCE<-QQSimGeneMeans(SCE,Est_params)
@@ -150,10 +153,7 @@ saver_out<-saver(x=RAW_DAT,size.factor=1/c(BETA_SCRAN_1,BETA_SCRAN_2))
 
 gr<-table(CONDITION)
 M_saver<-SCnorm_runMAST(Data=saver_out$estimate,NumCells = gr)
-T_saver<-wilcox_fun(cells=saver_out$estimate[,CONDITION==1],ctrls=saver_out$estimate[,CONDITION==2])
-
-# plot(rowMeans(mbayNorm_out$Bay_mat_list$`Group 1`),rowMeans(mbayNorm_out$Bay_mat_list$`Group 2`),log='xy')
-# abline(0,1)
+#T_saver<-wilcox_fun(cells=saver_out$estimate[,CONDITION==1],ctrls=saver_out$estimate[,CONDITION==2])
 
 
 save(saver_out,M_saver,file="E:/RNAseqProject/SIMULATION/SIM_noDE_01_005_H1/SAVER_noDE_01_005_H1.RData")
@@ -206,34 +206,17 @@ save(MAGIC_out,M_magic,file="E:/RNAseqProject/SIMULATION/SIM_noDE_01_005_H1/MAGI
 
 ####analysis######
 load("E:/RNAseqProject/SIMULATION/SIM_noDE_01_005_H1/SIM_noDE_01_005_H1.RData")
-# library(abind)
-# qq_temp<-abind(abayNorm_out$Bay_array_list,along=2)
-# dim(qq_temp)
-# M_bayNorm_a10<-SCnorm_runMAST3(Data=qq_temp,NumCells = c(100,100))
-# rm(qq_temp)
-# save.image(file="E:/RNAseqProject/SIMULATION/SIM_noDE_01_005_H1/SIM_noDE_01_005_H1.RData")
-#load("E:/RNAseqProject/SIMULATION/SIM_noDE_01_005_H1/SAVER_noDE_01_005_H1.RData")
-load("E:/RNAseqProject/SIMULATION/SIM_noDE_01_005_H1/SAVER_noDE_01_005_H1_default.RData")
-load("E:/RNAseqProject/RAW_6SIM/DCA_SIM/DCA_SIM_noDE_01_005_H1.RData")
 
-
-
-load("E:/RNAseqProject/SIMULATION/SIM_noDE_01_005_H1/SCnorm_noDE_01_005_H1.RData")
-load("E:/RNAseqProject/SIMULATION/SIM_noDE_01_005_H1/scImpute_noDE_01_005_H1.RData")
-load("E:/RNAseqProject/SIMULATION/SIM_noDE_01_005_H1/RB_noDE_01_005_H1.RData")
-load("E:/RNAseqProject/SIMULATION/SIM_noDE_01_005_H1/MAGIC_noDE_01_005_H1.RData")
 
 
 #TrueMU<-rowData(SCE)$BaseGeneMean[-DROP]
 
 Inputdat<-RAW_DAT
-#Inputdat<-SCE@assays@.xData$data$TrueCounts
 
 MedExp <- log(apply(Inputdat, 1, function(x) median(x[x != 0])))
 MedExp[1:40]
-#MedExp<-log(TrueMU)
-#names(MedExp)<-rownames(RAW_DAT)
-# split into 4 equally sized groups:
+
+# split into 6 equally sized groups:
 grpnum <- 6
 splitby <- sort(MedExp)
 grps <- length(splitby)/grpnum
@@ -242,7 +225,6 @@ sreg <- split(splitby, ceiling(seq_along(splitby)/grps))
 summary(sreg[[4]])
 
 reee='MAST'
-#reee='TSTAT'
 
 
 
@@ -264,7 +246,6 @@ Gene_exp_gr<-seq(1,grpnum)
 library(foreach)
 thres<-0.05
 
-#norm_vec<-c('bayNorm','SCnorm','scImpute','Scaling','SAVER','MAGIC','DCA')
 norm_vec<-c('bayNorm','SCnorm','Scaling','SAVER','MAGIC','DCA')
 BAR_MAST_l_list<-foreach(i=1:length(sreg))%do%{
     BAR_MAST_l<-lapply(INPUT_LIST,function(x){length(intersect(names(which(x<thres)),names(sreg[[i]])))})
@@ -307,100 +288,45 @@ DE_H1<-ggplot(data=BAR_MAST_DAT, aes(x=BAR_MAST_DAT[,3], y=BAR_MAST_DAT[,1], fil
 DE_H1
 
 
-source(file="E:/RNAseqProject/MANY_SAVE_PATH.R")
-#jpeg(FIGURE_2_PATH_fun("/FIG2_W_H1.jpeg"), width = 75, height = 70, units = 'mm', res = 300)
-#width=2.8,height=2.8
-#postscript(FIGURE_SUP_PATH_fun('/SIM_noDE_BAR.eps'),width=4,height=3)
-pdf(FIGURE_SUP_PATH_fun('/SIM_noDE_BAR_H1.pdf'),width=3.75,height=3)
-DE_H1
-dev.off()
 
-##useless###########
-
-cex=4
-cex.lab=1.5
-cex.axis=1.5
-line=1.5
-lwd=3
-cex.main=1.5
-linecol=2
-
-#postscript(FIGURE_SUP_PATH_fun('/SIM_noDE_scatter.eps'),width=8,height=10)
-#jpeg(FIGURE_SUP_PATH_fun('/SIM_noDE_scatter.jpg'),width=7,height=8,res=300,units='in')
-source(file="E:/RNAseqProject/MANY_SAVE_PATH.R")
-pdf(FIGURE_SUP_PATH_fun('/SIM_noDE_scatter.pdf'),width=7.5,height=9)
-
-
-par(mfrow=c(3,2))
-xx<-rowMeans(mbayNorm_out$Bay_mat_list$`Group 1`)
-yy<-rowMeans(mbayNorm_out$Bay_mat_list$`Group 2`)
-plot(xx,yy,log='xy',xlab='Mean expression of group 1',ylab='Mean expression of group 2',main=paste('MSE=',round(mean((xx-yy)^2),4),sep=''),pch='.',cex=cex,cex.lab=cex.lab,cex.axis=cex.axis,cex.main=cex.main)
-abline(0,1,lty=2,lwd=lwd,col=linecol)
-
-
-xx<-rowMeans(scnorm_out[,CONDITION==1])
-yy<-rowMeans(scnorm_out[,CONDITION==2])
-plot(xx,yy,log='xy',xlab='Mean expression of group 1',ylab='Mean expression of group 2',main=paste('MSE=',round(mean((xx-yy)^2),4),sep=''),pch='.',cex=cex,cex.lab=cex.lab,cex.axis=cex.axis,cex.main=cex.main)
-abline(0,1,lty=2,lwd=lwd,col=linecol)
-
-xx<-rowMeans(saver_out$estimate[,CONDITION==1])
-yy<-rowMeans(saver_out$estimate[,CONDITION==2])
-plot(xx,yy,log='xy',xlab='Mean expression of group 1',ylab='Mean expression of group 2',main=paste('MSE=',round(mean((xx-yy)^2),4),sep=''),pch='.',cex=cex,cex.lab=cex.lab,cex.axis=cex.axis,cex.main=cex.main)
-abline(0,1,lty=2,lwd=lwd,col=linecol)
-
-
-xx<-rowMeans(scImpute_out[,CONDITION==1])
-yy<-rowMeans(scImpute_out[,CONDITION==2])
-plot(xx,yy,log='xy',xlab='Mean expression of group 1',ylab='Mean expression of group 2',main=paste('MSE=',round(mean((xx-yy)^2),4),sep=''),pch='.',cex=cex,cex.lab=cex.lab,cex.axis=cex.axis,cex.main=cex.main)
-abline(0,1,lty=2,lwd=lwd,col=linecol)
-
-
-xx<-rowMeans(RB_out[,CONDITION==1])
-yy<-rowMeans(RB_out[,CONDITION==2])
-plot(xx,yy,log='xy',xlab='Mean expression of group 1',ylab='Mean expression of group 2',main=paste('MSE=',round(mean((xx-yy)^2),4),sep=''),pch='.',cex=cex,cex.lab=cex.lab,cex.axis=cex.axis,cex.main=cex.main)
-abline(0,1,lty=2,lwd=lwd,col=linecol)
-dev.off()
 
 
 
 ######FC plot#####
-#DATA_list<-list(bayNorm=cbind(mbayNorm_out$Bay_mat_list$`Group 1`,mbayNorm_out$Bay_mat_list$`Group 2`),SCnorm=scnorm_out,scImpute=scImpute_out,Scaling=RB_out,SAVER=saver_out,MAGIC=MAGIC_out,DCA=DCA_out)
+
 DATA_list<-list(bayNorm=cbind(mbayNorm_out$Bay_mat_list$`Group 1`,mbayNorm_out$Bay_mat_list$`Group 2`),SCnorm=scnorm_out,Scaling=RB_out,SAVER=saver_out,MAGIC=MAGIC_out,DCA=DCA_out)
 
 source("E:/RNAseqProject/Bacher__SCnorm_2016/FC_fun.R")
 FC_out<-FC_fun(Inputdat=RAW_DAT,CONDITION=CONDITION,DATA_list,textsize=14,legend.key.size=1,colourval = cbbPalette2)
 FC_out
 
-
-source(file="E:/RNAseqProject/MANY_SAVE_PATH.R")
 library(gridExtra)
 library(ggpubr)
 library(cowplot)
-#qq<-ggarrange(DE_H1 ,MSE_H1,ncol=2,nrow=1,common.legend = TRUE, legend="top")
+
 qq<-plot_grid(DE_H1,FC_out + theme(legend.position="none"),ncol=1,nrow=2)
-#draw_grob(get_legend(DE_H1), 0.55, 0.75, 1/3, 0.5)
+
 qq
-ggsave(FIGURE_SUP_PATH_fun('/SIM_noDE_scatter_H1_tr_default.pdf'),plot=qq,width = 8, height =10,units='in')
 
 
 
-#####different DE method#####
-load("E:/RNAseqProject/SIMULATION/SIM_noDE_01_005_H1/SIM_noDE_01_005_H1.RData")
-source("E:/RNAseqProject/BAY_DEFUN.R")
-
-baylist1<-list(mean=mbayNorm_out$Bay_mat_list$`Group 1`,mode=modebayNorm_out$Bay_mat_list$`Group 1`,array=abayNorm_out$Bay_array_list$`Group 1`)
-baylist2<-list(mean=mbayNorm_out$Bay_mat_list$`Group 2`,mode=modebayNorm_out$Bay_mat_list$`Group 2`,array=abayNorm_out$Bay_array_list$`Group 2`)
-
-#DE_LIST<-BAY_DEFUN(baylist1,baylist2,CONDITION=CONDITION,NumCells=c(100,100))
-
-load("E:/RNAseqProject/SIMULATION/SIM_noDE_01_005_H1/SIM_noDE_01_005_H1.RData")
-source("E:/RNAseqProject/BAY_DEFUN.R")
-textsize<-12
-BAR_OUT_simH1<-BAR_DE_FUN(DE_list=DE_LIST,Inputdat=RAW_DAT,xlab='DE method_type of output from bayNorm')
-BAR_OUT_simH1
-
-library(ggplot2)
-ggsave(filename="E:/RNAseqProject/Illustrator_bayNorm/SUP/SUP_SIMnoDE_H1.pdf",plot=BAR_OUT_simH1,width=8.2,height=5.5,units='in')
+# #####different DE method#####
+# load("E:/RNAseqProject/SIMULATION/SIM_noDE_01_005_H1/SIM_noDE_01_005_H1.RData")
+# source("E:/RNAseqProject/BAY_DEFUN.R")
+# 
+# baylist1<-list(mean=mbayNorm_out$Bay_mat_list$`Group 1`,mode=modebayNorm_out$Bay_mat_list$`Group 1`,array=abayNorm_out$Bay_array_list$`Group 1`)
+# baylist2<-list(mean=mbayNorm_out$Bay_mat_list$`Group 2`,mode=modebayNorm_out$Bay_mat_list$`Group 2`,array=abayNorm_out$Bay_array_list$`Group 2`)
+# 
+# #DE_LIST<-BAY_DEFUN(baylist1,baylist2,CONDITION=CONDITION,NumCells=c(100,100))
+# 
+# load("E:/RNAseqProject/SIMULATION/SIM_noDE_01_005_H1/SIM_noDE_01_005_H1.RData")
+# source("E:/RNAseqProject/BAY_DEFUN.R")
+# textsize<-12
+# BAR_OUT_simH1<-BAR_DE_FUN(DE_list=DE_LIST,Inputdat=RAW_DAT,xlab='DE method_type of output from bayNorm')
+# BAR_OUT_simH1
+# 
+# library(ggplot2)
+# ggsave(filename="E:/RNAseqProject/Illustrator_bayNorm/SUP/SUP_SIMnoDE_H1.pdf",plot=BAR_OUT_simH1,width=8.2,height=5.5,units='in')
 
 
 

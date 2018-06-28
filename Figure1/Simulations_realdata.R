@@ -488,7 +488,7 @@ qq<-ggarrange(
 qq
 
 
-
+save.image("H1p24_bay_sim_allgene.RData")
 
 
 
