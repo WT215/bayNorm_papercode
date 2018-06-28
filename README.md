@@ -118,6 +118,9 @@ The codes are stored in: `\Simulations\SIM_noDE`
 
 
 
+# Next
+After the above steps, you can try the other R files which include various code for analysing the data. 
+
 
 
 
