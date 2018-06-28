@@ -8,7 +8,10 @@ source("E:/RNAseqProject/MANY_NORM_FUN.R")
 #bayNorm####
 BAY_LL_out<-bayNorm(Data=DAT_Jaakkola,BETA_vec=BETA,S=20,parallel=T,NCores=5,FIX_MU = T,GR=F,Conditions=CONDITION,BB_SIZE = T,mode_version = F,UMI_sffl=c(10,10),Prior_type = 'LL',verbose = T)
 
-
+library(abind)
+qq<-abind(BAY_LL_out$Bay_array_list,along=2)
+dim(qq)
+MAST_bay_mat<-SCnorm_runMAST3(Data=qq,NumCells=c(48,44))
 
 #MAGIC####
 library(Rmagic)

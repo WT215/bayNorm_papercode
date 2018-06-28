@@ -18,6 +18,10 @@ mBAY_H1<-bayNorm(Data=H1_data_comb,BETA_vec=Beta_H1,S=1000,parallel=T,NCores=5,F
 #Apply bayNorm on H1 datasets: 20 samples
 aBAY_H1<-bayNorm_sup(Data=H1_data_comb,Conditions=CONDITION_H1,UMI_sffl = c(20,10),S=20,PRIORS = mBAY_H1$PRIORS_LIST,BETA_vec = do.call(c,mBAY_H1$BETA))
 
+
+#Apply bayNorm on H1: mode versions:
+modeBAY_H1<-bayNorm_sup(Data=H1_data_comb,Conditions=CONDITION_H1,UMI_sffl = c(20,10),S=20,PRIORS = mBAY_H1$PRIORS_LIST,BETA_vec = do.call(c,mBAY_H1$BETA),mode_version = T)
+
 library(abind)
 qq<-abind(aBAY_H1$Bay_array_list,along=3)
 MAST_bay_mat<-SCnorm_runMAST3(Data=qq,NumCells = c(92,92))
